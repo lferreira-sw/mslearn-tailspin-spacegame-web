@@ -70,6 +70,7 @@ steps:
     projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
+
   displayName: 'Install ReportGenerator'
   inputs:
     command: custom
@@ -122,6 +123,13 @@ steps:
     publishWebProjects: false
     arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
     zipAfterPublish: true
+
+- task: WhiteSource Bolt@20
+  displayName: 'Run WhiteSource Bolt'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  condition: succeeded()
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
